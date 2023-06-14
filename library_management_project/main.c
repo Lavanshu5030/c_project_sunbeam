@@ -7,6 +7,9 @@
 #include "book.h"
 #include "book_control.h"
 #include "book_dal.h"
+#include "copy.h"
+#include "copy_dal.h"
+#include "copy_control.h"
 
 int main()
 {
@@ -74,20 +77,17 @@ int main()
     // }
     // book_print(&my_book);
     // book_add(&my_book);//tier-3
-    char *isbn_to_find = "B7de";
 
-    book_t *found_book = book_find_by_isbn(isbn_to_find);
-
-    if (found_book != NULL)
-    {
-        printf("Book found:\n");
-        printf("ISBN: %s\n", found_book->isbn);
-        free(found_book);
-    }
-    else
-    {
-        printf("Book not found.\n");
-    }
+    // char *isbn_to_find = "8ddid";
+    // book_print(book_find_by_isbn(isbn_to_find)); 
+    // char title[20];       
+    // printf("Enter title:\n");
+    // scanf("%s", title);
+    // book_find_by_title(title);
+    // book_print(book_find_by_title(title));// Able to find only one record (list should get printed)
+    copy_t my_copy;
+    copy_accept(&my_copy);
+    copy_print(&my_copy);
 
     return 0;
 }

@@ -5,6 +5,8 @@
 
 int book_save(book_t *book);
 book_t* book_find_by_isbn(char *isbn);
+book_t* book_find_by_title(char *title);
+
 
 
 #endif

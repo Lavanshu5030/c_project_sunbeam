@@ -1,12 +1,13 @@
 #ifndef COPY_H
 #define COPY_H
 
-struct copy
+typedef struct copy
 {
-    int id;
-    char rack[50];
-    int isbn;
+    int copy_id;
+    int rack;
+    char isbn[20];
     char status[50];
-};
+    
+}copy_t;
 
 #endif // COPY_H
