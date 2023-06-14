@@ -36,7 +36,7 @@ int user_accept(user_t *u) {
     scanf("%s", u->role);
 
     printf("------------------------------\n");
-    return u;
+    // return u;
 }
 
 void user_print(user_t *u) {

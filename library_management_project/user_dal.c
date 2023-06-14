@@ -7,18 +7,18 @@
 #include"user.h"
 
 int user_save(user_t *u) {
-    FILE *file = fopen("user.db", "wb");  // Open the file in binary write mode
+    FILE *file = fopen("user.db", "ab");  // Open the file in binary write mode
 
     if (file == NULL) {
         printf("Error opening file.\n");
-        return;
+        return 0;
     }
 
     fwrite(u, sizeof(user_t), 1, file);  // Write the user structure to the file
 
     fclose(file);  // Close the file
 
-    return 0;
+    return 1;
 }
 
 user_t* find_user_by_id(int *id) {

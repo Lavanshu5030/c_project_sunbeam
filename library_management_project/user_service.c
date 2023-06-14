@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h> // To use 'R_OK'
 #include "user_service.h"
+#include "user_control.h"
 #include "user_dal.h"
 #include "user.h"
 

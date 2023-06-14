@@ -1,31 +1,33 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "user_dal.h"
 #include "user_service.h"
 #include "user_control.h"
-#include"user.h"
+#include "user.h"
+#include "book.h"
+#include "book_control.h"
+#include "book_dal.h"
 
 int main()
 {
-    user_t my_user; 
+    // user_t my_user;
     // user_accept(&my_user);//Tier-3
     // user_print(&my_user);//Tier-3
     // user_save(&my_user);//Tier-1
-    //Tier-1
+    // Tier-1
     // user_update(&my_user);//Tier-1
-    
 
-// int main(int argc, char *argv[]) {
-//     if(argc == 2 && strcmp(argv[1], "--init") == 0) {
-//         // user_t owner;
-//         // user_accept(&ownername,&email,&password,&phone,&roler);
-//         // owner_register(&owner);
-//         exit(0);
-//     }
+    // int main(int argc, char *argv[]) {
+    //     if(argc == 2 && strcmp(argv[1], "--init") == 0) {
+    //         // user_t owner;
+    //         // user_accept(&ownername,&email,&password,&phone,&roler);
+    //         // owner_register(&owner);
+    //         exit(0);
+    //     }
 
-//     // menu-driven program
-   
-// }
-    
+    //     // menu-driven program
+
+    // }
 
     // int by_id;
     // char email[20];
@@ -54,17 +56,38 @@ int main()
     // int authenticate = user_authenticate(email,password); //Tier-2
     // printf("%d\n",authenticate);
     // user_register(&my_user);
-    int result = owner_register(&my_user);
-    if (result == 1) {
-        printf("Owner registered successfully\n");// Owner registration was successful
-    } else {
-        printf("Owner registration failed\n");// Owner registration failed
+    // int result = owner_register(&my_user);
+    // if (result == 1) {
+    //     printf("Owner registered successfully\n");// Owner registration was successful
+    // } else {
+    //     printf("Owner registration failed\n");// Owner registration failed
+    // }
+
+    // BOOK
+    // book_t my_book;
+    // book_accept(&my_book);
+    // int saveResult = book_save(&my_book);
+    // if (saveResult) {
+    //    printf("Success !!!\n");  // Success
+    // } else {
+    //    printf("Failure\n"); // Failure
+    // }
+    // book_print(&my_book);
+    // book_add(&my_book);//tier-3
+    char *isbn_to_find = "B7de";
+
+    book_t *found_book = book_find_by_isbn(isbn_to_find);
+
+    if (found_book != NULL)
+    {
+        printf("Book found:\n");
+        printf("ISBN: %s\n", found_book->isbn);
+        free(found_book);
     }
-    
-    
-    
-    
+    else
+    {
+        printf("Book not found.\n");
+    }
 
     return 0;
 }
-
