@@ -52,10 +52,10 @@ int main()
     // printf("%d\n",max);
     // printf("Enter email id:\n");
     // scanf("%s", email);
-    // printf("%s", "Enter password:\n");
-    // scanf("%s", &password);
+    // printf("Enter password:\n");
+    // scanf("%s", password);
 
-    // user_update(by_id, email, name);
+    // user_update(by_id, email, password);
     // int authenticate = user_authenticate(email,password); //Tier-2
     // printf("%d\n",authenticate);
     // user_register(&my_user);
@@ -80,14 +80,23 @@ int main()
 
     // char *isbn_to_find = "8ddid";
     // book_print(book_find_by_isbn(isbn_to_find)); 
-    // char title[20];       
+    //  char title[20];       
     // printf("Enter title:\n");
     // scanf("%s", title);
     // book_find_by_title(title);
     // book_print(book_find_by_title(title));// Able to find only one record (list should get printed)
-    copy_t my_copy;
-    copy_accept(&my_copy);
-    copy_print(&my_copy);
+    // char author[20];       
+    // char *isbn = "74mf";
+    // printf("Enter author:\n");
+    // scanf("%s", author);
+    // printf("Enter title:\n");
+    // scanf("%s", title);
+    // int i = book_update(isbn, author, title);
+    // printf("%d", i);
+    // copy_t my_copy;
+    // copy_accept(&my_copy);
+    // copy_print(&my_copy);
+    copy_add();
 
     return 0;
 }

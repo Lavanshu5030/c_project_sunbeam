@@ -100,7 +100,7 @@ int user_get_max_id() {
     return max_id;
 }
 
-void user_update(int id, char* new_email,char* new_name) {
+void user_update(int id, char* new_email,char* password) {
     FILE* file = fopen("user.db", "r+b");
     if (file == NULL) {
         printf("Error opening file.\n");
@@ -108,11 +108,11 @@ void user_update(int id, char* new_email,char* new_name) {
     }
 
     user_t temp_user;
-    while (fread(&temp_user, sizeof(user_t), 1, file) == 1) {
+    while (fread(&temp_user, sizeof(user_t), 1, file) > 0) {
         if (temp_user.id == id) {
             // Update the record with new values
             strncpy(temp_user.email, new_email, sizeof(temp_user.email));
-            strncpy(temp_user.name, new_name, sizeof(temp_user.name));
+            strncpy(temp_user.password, password, sizeof(temp_user.password));
 
             // Move the file pointer back to the beginning of the record
             fseek(file, -sizeof(user_t), SEEK_CUR);
@@ -122,7 +122,7 @@ void user_update(int id, char* new_email,char* new_name) {
 
             printf("Record updated successfully.\n"); // Do not use print in this file
             fclose(file);
-            return;
+            
         }
     }
 

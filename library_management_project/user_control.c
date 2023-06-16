@@ -9,7 +9,7 @@ int user_accept(user_t *u) {
     // printf("Enter your ID: ");
     // scanf("%d", &u->id);
     u->id = 1+user_get_max_id();
-    printf("print id = %d\n", u->id);
+    printf("User id = %d\n", u->id);
 
   
     printf("Enter your name: ");
@@ -36,7 +36,7 @@ int user_accept(user_t *u) {
     scanf("%s", u->role);
 
     printf("------------------------------\n");
-    // return u;
+     return 1;
 }
 
 void user_print(user_t *u) {

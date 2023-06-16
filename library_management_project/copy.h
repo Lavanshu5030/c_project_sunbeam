@@ -6,7 +6,7 @@ typedef struct copy
     int copy_id;
     int rack;
     char isbn[20];
-    char status[50];
+    int status;
     
 }copy_t;
 

@@ -1,11 +1,16 @@
 #ifndef BOOK_H
 #define BOOK_H
 
+#define TITLE_LENGTH 100
+#define AUTHOR_LENGTH 100
+#define ISBN_LENGTH 13
+
 typedef struct book
 {
-    char isbn[50];
-    char title[50];
-    char author[50]; 
+    
+    char title[TITLE_LENGTH];
+    char author[AUTHOR_LENGTH];
+    char isbn[ISBN_LENGTH];
     char category[50];
     float price;
 }book_t;
