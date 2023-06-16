@@ -3,7 +3,7 @@
 
 #include <time.h>
 
-struct issuerecord {
+typedef struct issuerecord {
     int id;             // Issue record ID
     int copy_id;        // Copy ID
     int user_id;        // User ID
@@ -11,7 +11,7 @@ struct issuerecord {
     char due_date[20];      // Due date (string format or use a time_t variable)
     char return_date[20];   // Return date (string format or use a time_t variable)
     float fine_amount;  // Fine amount (if any)
-};
+}issuerecord_t;
 
 
 #endif // ISSUERECORD_H

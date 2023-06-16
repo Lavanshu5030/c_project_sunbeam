@@ -8,8 +8,8 @@
 #include "book_control.h"
 #include "book_dal.h"
 #include "copy.h"
-#include "copy_dal.h"
-#include "copy_control.h"
+
+
 
 int main()
 {
@@ -79,13 +79,13 @@ int main()
     // book_add(&my_book);//tier-3
 
     // char *isbn_to_find = "8ddid";
-    // book_print(book_find_by_isbn(isbn_to_find)); 
-    //  char title[20];       
+    // book_print(book_find_by_isbn(isbn_to_find));
+    //  char title[20];
     // printf("Enter title:\n");
     // scanf("%s", title);
     // book_find_by_title(title);
     // book_print(book_find_by_title(title));// Able to find only one record (list should get printed)
-    // char author[20];       
+    // char author[20];
     // char *isbn = "74mf";
     // printf("Enter author:\n");
     // scanf("%s", author);
@@ -96,7 +96,17 @@ int main()
     // copy_t my_copy;
     // copy_accept(&my_copy);
     // copy_print(&my_copy);
-    copy_add();
+    // copy_add();
+    // copy_get_status();
+    int total_count=0;
+    char isbn[ISBN_LENGTH];
+    int avail_count=0;
+    printf("Enter isbn:");
+    scanf("%s\n", isbn);
+    book_copy_get_count(isbn,&total_count,&avail_count);
+    printf("Total count :%d\n", total_count);
+    printf("avail count: %d\n", avail_count);
+
 
     return 0;
 }

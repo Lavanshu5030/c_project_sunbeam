@@ -26,7 +26,7 @@ void book_accept(book_t *b) {
    
 
     printf("Enter your price:\n");
-    scanf("%2f", &b->price);
+    scanf("%f", &b->price);
 
     printf("------------------------------\n");
     // return b;
@@ -41,7 +41,7 @@ void book_print(book_t *b) {
     printf("Title: %s\n", b->title);
     printf("Author: %s\n", b->author);
     printf("Category: %s\n", b->category);
-    printf("Price:%f\n",b->price);
+    printf("Price:%2f\n",b->price);
 }
 
 void book_add(book_t *b) {
@@ -73,6 +73,27 @@ void copy_add(){
     copy_save(&new_copy);
     printf("Saved Successfully");
 }
+
+void copy_tocheck_status_accept_isbn(char *isbn){
+    printf("Enter the ISBN: ");
+    scanf("%s", isbn);
+    printf("ISBN entered successfully");
+}
+
+void copy_print(copy_t *c) {
+
+    if(c == NULL){
+        printf("Book not found");
+    }
+    printf("id: %d\n", c->copy_id);
+    printf("status: %d\n", c->status);
+    printf("rack: %d\n", c->rack);
+
+}
+
+
+
+
 
 
 

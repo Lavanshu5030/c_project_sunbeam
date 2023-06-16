@@ -117,6 +117,7 @@ int book_update(char *isbn, char *author, char *title){
 }
 
 int copy_save(copy_t *u) {
+    u->status =1;
     FILE *file = fopen("copy.db", "ab");  // Open the file in binary write mode
 
     if (file == NULL) {
@@ -155,5 +156,61 @@ int copy_get_max_id() {
 
     return max_id;
 }
+
+// copy_t check_status(copy_t *c) {
+    
+//     FILE *file = fopen("copy.db", "r");
+//     if (file == NULL) {
+//         printf("Error opening file 'copy.db'.\n");
+//         copy_t empty_copy = {"", ""};
+//         return empty_copy;
+//     }
+
+//     copy_t copy;
+//     int found = 0;
+
+//     // Read the file line by line
+//     while (fread(&copy, sizeof(copy_t), 1, file) == 1) {
+//         // Compare the ISBN with the input
+//         if (strcmp(copy.isbn, c) == 0) {
+//             found = 1;
+//             break;
+//         }
+//     }
+
+//     fclose(file);
+
+//     if (!found) {
+//         printf("No copies found for ISBN '%s'.\n", c);
+//         copy_t empty_copy = {"", ""};
+//         return empty_copy;
+//     }
+
+//     return copy;
+// }
+
+int book_copy_get_count(char isbn[ISBN_LENGTH], int *total_count, int *avail_count){ 
+     copy_t book_copy_buff; 
+     FILE *fbc; 
+  
+     fbc = fopen("copy.db", "rb"); 
+     if(fbc == NULL){ 
+         return 0;      //error while opening file. 
+     } 
+  
+     while(fread(&book_copy_buff, sizeof(copy_t), 1, fbc) > 0){ 
+         printf("%s", book_copy_buff.isbn); 
+         if(strcmp(isbn, book_copy_buff.isbn) == 0){ 
+             (*total_count)++; 
+             if(book_copy_buff.status == 1){ 
+                 (*avail_count)++; 
+             } 
+         } 
+     } 
+  
+     fclose(fbc); 
+  
+     return 1; 
+ }
 
 
