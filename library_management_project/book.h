@@ -3,7 +3,7 @@
 
 #define TITLE_LENGTH 100
 #define AUTHOR_LENGTH 100
-#define ISBN_LENGTH 13
+#define ISBN_LENGTH 16
 
 typedef struct book
 {

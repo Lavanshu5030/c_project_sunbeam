@@ -1,17 +1,23 @@
-#ifndef ISSUERECORD_H
-#define ISSUERECORD_H
+#ifndef __ISSUERECORD_H
+#define __ISSUERECORD_H
 
-#include <time.h>
+#include"date.h"
+#include<time.h>
 
-typedef struct issuerecord {
-    int id;             // Issue record ID
-    int copy_id;        // Copy ID
-    int user_id;        // User ID
-    char issue_date[20];    // Issue date (string format or use a time_t variable)
-    char due_date[20];      // Due date (string format or use a time_t variable)
-    char return_date[20];   // Return date (string format or use a time_t variable)
-    float fine_amount;  // Fine amount (if any)
+#define ISSUERECORD_FILE "issuerecord.db"
+#define RECSIZE_ISSUERECORD sizeof(issuerecord_t)
+
+typedef struct issuerecord
+{
+    int id;
+    int book_copy_id;
+    int member_id;
+    int fine_amount;
+    date_t issue_date;
+    date_t return_due_date;
+    date_t return_date;
+
 }issuerecord_t;
 
 
-#endif // ISSUERECORD_H
+#endif
