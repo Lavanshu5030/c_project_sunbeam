@@ -98,14 +98,15 @@ int main()
     // copy_print(&my_copy);
     // copy_add();
     // copy_get_status();
-    int total_count=0;
-    char isbn[ISBN_LENGTH];
-    int avail_count=0;
-    printf("Enter isbn:");
-    scanf("%s\n", isbn);
-    book_copy_get_count(isbn,&total_count,&avail_count);
-    printf("Total count :%d\n", total_count);
-    printf("avail count: %d\n", avail_count);
+    // int total_count=0;
+    // char isbn[ISBN_LENGTH];
+    // int avail_count=0;
+    // printf("Enter isbn:");
+    // scanf("%s\n", isbn);
+    // book_copy_get_count(isbn,&total_count,&avail_count);
+    // printf("Total count :%d\n", total_count);
+    // printf("avail count: %d\n", avail_count);
+    
 
 
     return 0;
