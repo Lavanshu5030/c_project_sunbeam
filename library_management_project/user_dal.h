@@ -7,6 +7,6 @@ int user_save(user_t *u);
 user_t * find_user_by_id(int *id);
 user_t* find_user_by_email(char* email);
 int user_get_max_id();
-void user_update(int id, char* new_email,char* new_name);
+int user_update(user_t *u);
 
 #endif // USER_DAL

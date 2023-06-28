@@ -100,34 +100,44 @@ int user_get_max_id() {
     return max_id;
 }
 
-void user_update(int id, char* new_email,char* password) {
-    FILE* file = fopen("user.db", "r+b");
-    if (file == NULL) {
-        printf("Error opening file.\n");
-        return;
+int user_update(user_t *u){
+    
+    user_t user_buff;
+    
+    int updated = 0;    //flag
+
+    FILE *fu;
+    fu = fopen("user.db", "rb+");
+    if(fu == NULL){
+        return 0;
     }
 
-    user_t temp_user;
-    while (fread(&temp_user, sizeof(user_t), 1, file) > 0) {
-        if (temp_user.id == id) {
-            // Update the record with new values
-            strncpy(temp_user.email, new_email, sizeof(temp_user.email));
-            strncpy(temp_user.password, password, sizeof(temp_user.password));
-
-            // Move the file pointer back to the beginning of the record
-            fseek(file, -sizeof(user_t), SEEK_CUR);
-
-            // Write the updated record back to the file
-            fwrite(&temp_user, sizeof(user_t), 1, file);
-
-            printf("Record updated successfully.\n"); // Do not use print in this file
-            fclose(file);
+    while( fread(&user_buff, sizeof(user_t) , 1, fu) > 0 ) {
+        
+        // if id is matching or not
+        if(u->id == user_buff.id){
             
+            //copies date to the respective fields
+            strcpy(user_buff.email, u->email);
+            strcpy(user_buff.phone, u->phone);
+            strcpy(user_buff.password, u->password);
+            user_buff.nextpayment_duedate = u->nextpayment_duedate;
+          
+            fseek(fu, -sizeof(user_t), SEEK_CUR);  // move file fpos to one record back
+            fwrite(&user_buff, sizeof(user_t), 1, fu);    // update changes into the file
+            
+            updated = 1;
+            break;
         }
     }
+    fclose(fu);
 
-    fclose(file);
-    printf("Record not found.\n"); // Do not user print in this file
+    if(!updated){
+        return 0;
+    }
+    else{
+        return 1;
+    }
 }
 
 

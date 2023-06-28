@@ -50,6 +50,32 @@ void book_add(book_t *b) {
     printf("Added new book Sucessfully \n");
 }
 
+void book_edit_control(){
+    book_t b;
+    printf("Enter new details of the book except ISBN :");
+    book_accept(&b);
+    if(book_edit(&b) == 1){
+        printf("\nBook updated successfully..!!");
+    }
+    else{
+        printf("Failed to edit book..!!");
+    }
+}
+
+void book_find_by_title_control(){
+    book_t  b;
+    char title[100];
+    printf("Enter the title of the book : ");
+    scanf("%[^\n]",title);
+    if(book_find_by_title(title) == 1){
+        printf("\nBook Found..!!\n");
+        book_print(&b);
+    }
+    else{
+        printf("\nBook Not Found..!!");
+    }
+}
+
 void copy_accept(copy_t *copy) {
     // printf("Enter Copy ID: ");
     // scanf("%d", &(copy->copy_id));
@@ -90,6 +116,37 @@ void copy_print(copy_t *c) {
     printf("rack: %d\n", c->rack);
 
 }
+
+void change_rack(){
+    copy_t bc;
+    int book_copy_id;
+    int rack;
+    
+    printf("\nEnter the ID of Book copy : ");
+    scanf("%d", &book_copy_id);
+    printf("\nEnter the new rack number : ");
+    scanf("%d", &rack);
+    
+    if(copy_change_rack(book_copy_id, rack,  &bc) == 1){
+        printf("Rack of book copy with ID %d changed successfully..!!", book_copy_id);
+    }
+    else{
+        printf("Failed to change rack..!!");
+    }
+}
+
+void check_book_availability(){
+    char isbn[ISBN_LENGTH] = {0};
+    printf("\nEnter the ISBN of the book : ");
+    scanf("%s", isbn);
+    if(copy_available(isbn) == 1){
+        printf("\nBook is available !!");
+    }
+    else{
+        printf("\nBook is not available !!");
+    }
+}
+
 
 
 

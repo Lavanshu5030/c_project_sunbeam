@@ -106,6 +106,20 @@ int main()
     // book_copy_get_count(isbn,&total_count,&avail_count);
     // printf("Total count :%d\n", total_count);
     // printf("avail count: %d\n", avail_count);
+
+    // struct BookNode* head = NULL;  // Initialize an empty linked list
+    
+    // // Add some books
+    // addBook(&head, "Book 1");
+    // addBook(&head, "Book 2");
+    // addBook(&head, "Book 3");
+    
+    // // Fetch and print the list of books
+    // fetchBooks(head);
+    
+    // // Free the memory allocated for the linked list
+    // freeList(head);
+    book_find_by_title_control();
     
 
 

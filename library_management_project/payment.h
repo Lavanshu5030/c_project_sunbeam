@@ -1,14 +1,21 @@
-#ifndef PAYMENT_H
-#define PAYMENT_H
-#include "user.h"
+#ifndef __PAYMENT_H
+#define __PAYMENT_H
 
-typedef struct payment {
-    int id;                 // Payment ID
-    int user_id;            // User ID
-    float amount;           // Payment amount
-    char payment_date[20];  // Payment date (string format or use a time_t variable)
-    char type[10];          // Payment type ("fees" or "fine")
-    char next_payment_due_date[20];  // Next payment due date (string format or use a time_t variable)
+#include<stdio.h>
+#include"date.h"
+
+#define PAYMENT_FILE    "payment.db"
+#define RECSIZE_PAYMENT sizeof(payment_t)
+
+enum payment_type {fine, fees};
+
+typedef struct payment{
+    int id;
+    int member_id;
+    float amount;
+    enum payment_type type;
+    date_t transaction_time;
+    date_t nextpayment_duedate;
 }payment_t;
 
-#endif // PAYMENT_H
+#endif

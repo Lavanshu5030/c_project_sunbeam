@@ -131,6 +131,31 @@ int copy_save(copy_t *u) {
 
     return 1;
 }
+int copy_find_by_id(int id, copy_t *bc){
+    int flag_found = 0;  //flag
+    FILE *fbc;
+    
+    fbc = fopen("copy.db" , "rb");
+    if(fbc == NULL){
+        return 0;
+    }
+
+    while ( fread(bc, sizeof(copy_t), 1, fbc) > 0){
+        if(bc->copy_id == id){            
+            flag_found = 1;
+            break;
+        }
+    }
+
+    fclose(fbc);
+
+    if(!flag_found){
+        return 0;
+    }
+    else{
+        return 1;
+    }
+}
 
 int copy_get_max_id() {
     FILE* file = fopen("copy.db", "rb");
@@ -157,39 +182,45 @@ int copy_get_max_id() {
     return max_id;
 }
 
-// copy_t check_status(copy_t *c) {
+int copy_update(copy_t *bc){
     
-//     FILE *file = fopen("copy.db", "r");
-//     if (file == NULL) {
-//         printf("Error opening file 'copy.db'.\n");
-//         copy_t empty_copy = {"", ""};
-//         return empty_copy;
-//     }
+    copy_t book_copy_buff;
+    
+    int flag_update = 0;    //flag
 
-//     copy_t copy;
-//     int found = 0;
+    FILE *fbc;
+    fbc = fopen("copy.db", "rb+");
+    if(fbc == NULL){
+        return 0;
+    }
 
-//     // Read the file line by line
-//     while (fread(&copy, sizeof(copy_t), 1, file) == 1) {
-//         // Compare the ISBN with the input
-//         if (strcmp(copy.isbn, c) == 0) {
-//             found = 1;
-//             break;
-//         }
-//     }
+    while( fread(&book_copy_buff, sizeof(copy_t) , 1, fbc) > 0 ) {
+        
+        // if isbn is matching or not
+        if(bc->copy_id == book_copy_buff.copy_id){
+            
+            //copies data to the respective fields.
+            book_copy_buff.rack = bc->rack;            
+            book_copy_buff.status = bc->status;
 
-//     fclose(file);
+            fseek(fbc, -sizeof(copy_t), SEEK_CUR);  // move file fpos to one record back
+            fwrite(&book_copy_buff, sizeof(copy_t), 1, fbc);    // update changes into the file
+            
+            flag_update = 1;
+            break;
+        }
+    }
+    fclose(fbc);
 
-//     if (!found) {
-//         printf("No copies found for ISBN '%s'.\n", c);
-//         copy_t empty_copy = {"", ""};
-//         return empty_copy;
-//     }
+    if(!flag_update){
+        return 0;
+    }
+    else{
+        return 1;
+    }
+}
 
-//     return copy;
-// }
-
-int book_copy_get_count(char isbn[ISBN_LENGTH], int *total_count, int *avail_count){ 
+int copy_get_count(char isbn[ISBN_LENGTH], int *total_count, int *avail_count){ 
      copy_t book_copy_buff; 
      FILE *fbc; 
   
@@ -211,6 +242,89 @@ int book_copy_get_count(char isbn[ISBN_LENGTH], int *total_count, int *avail_cou
      fclose(fbc); 
   
      return 1; 
- }
+}
+ int copy_avail_id(char isbn[ISBN_LENGTH], copy_t *bc){
+    int flag_avail = 0;
+
+    FILE *fbc;
+    fbc = fopen("copy.db", "rb");
+    if(fbc == NULL){
+        return -1;      //error opening file.
+    }
+
+    while(fread(bc, sizeof(copy_t), 1, fbc) > 0){
+        if(strcmp(isbn, bc->isbn) == 0){            
+            if(bc->status == 1){
+                flag_avail = 1;
+                break;
+            }
+        }
+    }
+
+    fclose(fbc);
+
+    if(!flag_avail){
+        return 0;   //book copy isn't available.
+    }
+    else{
+        return 1;   //book copy is available.
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+ // #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
+
+// Define the structure for a book node
+
+
+// Function to add a book to the linked list
+void addBook(struct BookNode** head, const char* title) {
+    // Create a new book node
+    struct BookNode* newNode = (struct BookNode*)malloc(sizeof(struct BookNode));
+    strncpy(newNode->title, title, 100);
+    newNode->next = NULL;
+    
+    // If the list is empty, make the new node as the head
+    if (*head == NULL) {
+        *head = newNode;
+    } else {
+        // Find the last node and append the new node
+        struct BookNode* temp = *head;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
+}
+
+// Function to fetch the list of books
+void fetchBooks(struct BookNode* head) {
+    printf("List of books:\n");
+    while (head != NULL) {
+        printf("%s\n", head->title);
+        head = head->next;
+    }
+}
+
+// Function to free the memory allocated for the linked list
+void freeList(struct BookNode* head) {
+    struct BookNode* temp;
+    while (head != NULL) {
+        temp = head;
+        head = head->next;
+        free(temp);
+    }
+}
 
 

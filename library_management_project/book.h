@@ -15,6 +15,12 @@ typedef struct book
     float price;
 }book_t;
 
+typedef struct BookNode {
+    char title[100];
+    struct BookNode* next;
+}Booknode_t;
+
+
 #endif // BOOK_H
 
 
