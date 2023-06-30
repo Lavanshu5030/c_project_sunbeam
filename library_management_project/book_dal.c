@@ -5,6 +5,7 @@
 #include "book.h"
 #include "book_dal.h"
 #include "copy.h"
+#include "book_list.h"
 
 #define MAX_LINE_LENGTH 250
 
@@ -30,7 +31,7 @@ int book_save(book_t *book) {
 
 
 
-book_t* book_find_by_isbn(char *isbn) {
+int book_find_by_isbn(char *isbn, book_t *bk) {
     FILE* file = fopen("book.db", "rb");
     if (file == NULL) {
         printf("Error opening file.\n");
@@ -56,7 +57,7 @@ book_t* book_find_by_isbn(char *isbn) {
     return NULL;
 }
 
-book_t* book_find_by_title(char *title) {
+int book_find_by_title(char *title, book_t *bl) {
     FILE* file = fopen("book.db", "rb");
     if (file == NULL) {
         printf("Error opening file.\n");
@@ -74,7 +75,7 @@ book_t* book_find_by_title(char *title) {
             }
             *book = temp_book; // Copy the data to the allocated memory
             return book;
-        }\
+        }
     }
 
     fclose(file);
@@ -271,60 +272,37 @@ int copy_get_count(char isbn[ISBN_LENGTH], int *total_count, int *avail_count){
     }
 }
 
+int generate_category_list(hashtable_category_t *hc){
+    book_t b_buff;
+    FILE *fb;
 
-
-
-
-
-
-
-
-
-
- // #include <stdio.h>
-// #include <stdlib.h>
-// #include <string.h>
-
-// Define the structure for a book node
-
-
-// Function to add a book to the linked list
-void addBook(struct BookNode** head, const char* title) {
-    // Create a new book node
-    struct BookNode* newNode = (struct BookNode*)malloc(sizeof(struct BookNode));
-    strncpy(newNode->title, title, 100);
-    newNode->next = NULL;
-    
-    // If the list is empty, make the new node as the head
-    if (*head == NULL) {
-        *head = newNode;
-    } else {
-        // Find the last node and append the new node
-        struct BookNode* temp = *head;
-        while (temp->next != NULL) {
-            temp = temp->next;
-        }
-        temp->next = newNode;
+    fb = fopen(BOOK_FILE, "rb");
+    if(fb == NULL){
+        return -1;
     }
-}
 
-// Function to fetch the list of books
-void fetchBooks(struct BookNode* head) {
-    printf("List of books:\n");
-    while (head != NULL) {
-        printf("%s\n", head->title);
-        head = head->next;
+    while( fread(&b_buff, RECSIZE_BOOK, 1, fb) > 0){
+        int asc_key = generate_asc_key(b_buff.category);
+        entry_category_t ec; 
+        
+        ec.asc_key = asc_key;
+        strcpy(ec.value.book_category, b_buff.category);
+        
+        
+        hc_insert(ec, hc);
     }
-}
 
-// Function to free the memory allocated for the linked list
-void freeList(struct BookNode* head) {
-    struct BookNode* temp;
-    while (head != NULL) {
-        temp = head;
-        head = head->next;
-        free(temp);
-    }
+    fclose(fb);
+
+    return 1;
 }
 
 
+
+
+
+
+
+
+
+ 

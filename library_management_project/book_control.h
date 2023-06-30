@@ -13,5 +13,6 @@ void book_find_by_title_control();
 void copy_print(copy_t *c);
 void change_rack();
 void check_book_availability();
+void book_categories_report();
 
 #endif // BOOK_H

@@ -84,3 +84,36 @@ void current_date(date_t *date){
     date->day = d->tm_mday;
 
 }
+int datecmp(date_t final, date_t init){
+    
+    int flag_greater = 0;
+
+    if (final.year == init.year){
+        if (final.month == init.month){
+            if(final.day == init.day ){
+                flag_greater = 2;
+            }
+            else if(final.day > init.day){
+                flag_greater = 1;
+            }
+        }
+        else if(final.month > init.month){
+            flag_greater = 1;
+        }
+    }
+    else if(final.year > init.year){
+        flag_greater = 1;
+    }
+
+    
+    if(flag_greater == 1){
+        return 1;
+    }
+    else if(flag_greater == 2){
+        return  2;
+    }
+    else if(flag_greater == 0){
+        return 0;
+    }
+
+}

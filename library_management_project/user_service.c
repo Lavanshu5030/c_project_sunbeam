@@ -8,7 +8,7 @@
 #include "user.h"
 #include "date.h"
 
-int user_authenticate(char* email, char* password) {
+int user_authenticate(char* email, char* password,user_t *u) {
     FILE* file = fopen("user.db", "rb");
     if (file == NULL) {
         printf("Error opening file.\n");
@@ -31,12 +31,15 @@ int member_register(user_t* user) {
     int max_id = user_get_max_id();
     int new_id = max_id + 1;
 
+
     user_t new_user;
     new_user.id = new_id;
-    strcpy(new_user.email, user->email);
-    strcpy(new_user.name, user->name);
+    new_user.role = member;
     
     user_accept(&new_user);
+    strcpy(new_user.email, user->email);
+    strcpy(new_user.name, user->name);
+
     user_save(&new_user);
     return 0;
     printf("User registered successfully with ID: %d\n", new_id);

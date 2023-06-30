@@ -6,13 +6,25 @@
 #include"book_dal.h"
 #include"book_service.h"
 #include"date.h"
+#include"payment_service.h"
+#include"user_service.h"
 
-//This function add new issuerecord in ISSUERECORD_FILE. This returns "1" if issuerecord saved successfully, returns "0" if book not found and returns "-1" if got error while saving record.
+//This function add new issuerecord in ISSUERECORD_FILE. This returns "1" if issuerecord saved successfully, returns "0" if book not found, returns "-2" if member is unpaid and returns "-1" if got error while saving record.
 int issuerecord_add(char isbn[ISBN_LENGTH], int member_id, int *issuerecord_id){
     
     issuerecord_t ir;
     copy_t bc;
-    
+
+    int paid = ispaid_user(member_id);
+    if(paid == 0){
+        return -2;
+    }
+
+    if(ispaid_user(member_id) == 0){
+        return -2;
+    }
+
+
     if(book_copy_avail_id(isbn, &bc) == 1){
 
         ir.id = get_max_issuerecord_id() + 1;           //automatically gets last record's id.
@@ -47,24 +59,25 @@ int issuerecord_add(char isbn[ISBN_LENGTH], int member_id, int *issuerecord_id){
 
 }
 
-int issuerecord_edit(int issuerecord_id, copy_t *bc){
+int issuerecord_edit(int issuerecord_id, copy_t *bc, float *amount){
     
     int flag_edit = 0;
     issuerecord_t ir;
+    int fine_amount;
 
     if(issuerecord_find_by_id(issuerecord_id, &ir) == 1){
         
         current_date(&ir.return_date);
         
-        int fine_amount = (date_diff(ir.return_date, ir.return_due_date) * 5);
-        if(fine_amount < 0){
-            ir.fine_amount = 0;
+        if(datecmp(ir.return_date, ir.return_due_date ) == 1){
+            fine_amount = date_diff(ir.return_date, ir.return_due_date) * 5;
+            ir.fine_amount = *amount = fine_amount;
         }
         else{
-            ir.fine_amount = fine_amount;
+            ir.fine_amount = *amount = 0;
         }
-
-        if(issuerecord_update(&ir) == 1 && book_copy_change_status(ir.book_copy_id, 1, bc) == 1){
+ 
+        if(issuerecord_update(&ir) == 1 && book_copy_change_status(ir.book_copy_id, 1, bc) == 1 && payment_add_fine(ir.fine_amount, ir.member_id) == 1){
             flag_edit = 1;
         }
     }

@@ -3,6 +3,7 @@
 #include<stdlib.h>
 #include"book.h"
 #include"book_dal.h"
+#include"book_list.h"
 
 int book_add(book_t *book){
     if(book_save(book) == 1){
@@ -13,11 +14,11 @@ int book_add(book_t *book){
     }
 }
 
-int book_edit(book_t *book){  
+int book_edit(char *isbn, char *author, char *title){  
     int flag_update = 0;
 
     //updates respective fields of book_buff with user inputed b*.
-    if(book_update(book) == 1){
+    if(book_update(isbn,author,title) == 1){
         flag_update = 1;
     }
     else{
@@ -100,8 +101,8 @@ int copy_change_rack(int book_copy_id, int rack, copy_t *bc){
     }
 }
 
-int book_search_by_isbn(char isbn[ISBN_LENGTH], book_t *book){
-    if(book_find_by_isbn(isbn, book) == 1){
+int book_search_by_isbn(char isbn[ISBN_LENGTH], book_t *bk){
+    if(book_find_by_isbn(isbn, bk) == 1){
         return 1;
     }
     else{
@@ -118,6 +119,38 @@ int copy_available(char isbn[ISBN_LENGTH]){
     else{
         return 0;
     }
+}
+
+int book_search_by_title(char title[TITLE_LENGTH]){
+    book_list_t bl;
+    init_book_list(&bl);
+    
+    if(book_find_by_title(title, &bl) == 1){
+        //1. create one trav pointer and start from head
+        book_node_t *trav = bl.head;
+        while(trav != NULL)
+        {
+            //2. print data of current(trav) node
+            book_print(&trav->data);
+            //3. go on next node
+            trav = trav->next;
+        }//4. repeat step 2 and 3 till last node (trav != NULL)
+        free_book_list(&bl);
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
+int get_category_list(hashtable_category_t *hc){
+        
+    if(generate_category_list(hc) == 1){
+        return 1;
+    }
+    else{
+        return 0;
+    }    
 }
 
 

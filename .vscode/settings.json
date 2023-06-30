@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "typeinfo": "c",
-        "book.h": "c"
+        "book.h": "c",
+        "hashtable.h": "c",
+        "book_list.h": "c"
     }
 }

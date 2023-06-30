@@ -63,11 +63,11 @@ void book_edit_control(){
 }
 
 void book_find_by_title_control(){
-    book_t  b;
+    book_t b;
     char title[100];
     printf("Enter the title of the book : ");
     scanf("%[^\n]",title);
-    if(book_find_by_title(title) == 1){
+    if(book_find_by_title(title,&b) == 1){
         printf("\nBook Found..!!\n");
         book_print(&b);
     }
@@ -144,6 +144,35 @@ void check_book_availability(){
     }
     else{
         printf("\nBook is not available !!");
+    }
+}
+
+void book_categories_report(){
+    hashtable_category_t hc;
+    int hashtable_category_size = 11;
+    
+    init_hashtable_category(hashtable_category_size, &hc);
+
+   if(get_category_list(&hc) == 1){
+    printf("\nBook Report (Categorywise) :\n");
+    
+    for(int i = 0; i < hashtable_category_size; i++){
+            
+            if(hc.table[i].head == NULL){
+                continue;
+            }
+
+            node_category_t *trav = hc.table[i].head;
+            while (trav != NULL)
+            {
+                book_category_count_print(&trav->data);
+                trav = trav->next;
+            }
+             
+        }
+    }
+    else{
+        printf("\nError while generating report..!!");
     }
 }
 
